@@ -19,13 +19,10 @@
 ;   looked up for the next ENCODE-SYMBOL.  Since the symbol is in the right
 ;   branch, the number of symbols to be scanned is N.
 ;
-; The order to encode the least frequent symbol is O(N^2), because:
+; The order to encode the least frequent symbol is also O(N), because:
 ;
 ; * The least frequent symbol is in the most left branch of the tree.
 ;   So that ENCODE-SYMBOL drills down the tree N-1 times.
 ; * At i-th step, ENCODE-SYMBOL scans N-i symbols.
-; * Therefore, the number of steps is
-;
-;       N-1                N-1
-;        Σ N-i = (N-1)N -  Σ i = (N-1)N - (N-1)N/2 = (N-1)N/2
-;       i=1                i=1
+;   But the first symbol in each step is always the least frequent symbol.
+;   So that memq ends in O(1).
