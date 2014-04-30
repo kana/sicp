@@ -40,7 +40,12 @@
 ;;; Why can't we assimilate the predicates number? and same-variable? into the
 ;;; data-directed dispatch?
 
-; ...
+; Because numbers and variables are represented by numbers and symbols, in
+; other words, atoms.  And it's not possible to attach tags to atoms.
+;
+; But if we change the representations of numbers and variables to use tagged
+; lists such as (number 123) and (variable x), it's possible to assimilate all
+; rules into the data-directed dispatch.
 
 ;;; b.  Write the procedures for derivatives of sums and products, and the
 ;;; auxiliary code required to install them in the table used by the program
