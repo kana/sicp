@@ -101,7 +101,30 @@
 ;;; one for exponents (exercise 2.56), and install it in this data-directed
 ;;; system.
 
-; ...
+(define (make-exponentation base exponent)
+  (cond
+    ((=number? base 0) 0)
+    ((=number? base 1) 1)
+    ((=number? exponent 0) 1)
+    ((=number? exponent 1) base)
+    ((and (number? base) (number? exponent)) (expt base exponent))
+    (else (list '** base exponent))))
+
+(define (install-exponentation-package)
+  ;; internal procedures
+  (define (deriv-exponentation operands var)
+    (make-product
+      (make-product
+        (exponent exp)
+        (make-exponentation (base exp) (- (exponent exp) 1)))
+      (deriv (base exp) var)))
+  (define (base operands)
+    (car operands))
+  (define (exponent operands)
+    (cadr operands))
+  ;; interface to the rest of the system
+  (put 'deriv '** deriv-exponentation)
+  'done)
 
 ;;; d.  In this simple algebraic manipulator the type of an expression is the
 ;;; algebraic operator that binds it together. Suppose, however, we indexed the
