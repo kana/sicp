@@ -135,4 +135,12 @@
 ;;;
 ;;; What corresponding changes to the derivative system are required?
 
-; ...
+; We have to change the code to install procedures to differentiate various
+; expressions such as sums and products.  Before the change on use of GET, the
+; installation code looks like:
+;
+;     (put 'deriv '+ deriv-sum)
+;
+; After the change, the installation code looks like:
+;
+;     (put '+ 'deriv deriv-sum)
