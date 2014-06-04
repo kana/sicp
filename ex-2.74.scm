@@ -81,6 +81,15 @@
 ;;; personnel file. How should the record be structured in order to make this
 ;;; operation work?
 
+; Each record is a key-value pairs, and the key for salary information is the
+; symbol "salary".
+
+(define (get-salary record)
+  (get-value 'salary record))
+
+
+
+
 ;;; c.  Implement for headquarters a find-employee-record procedure. This
 ;;; should search all the divisions' files for the record of a given employee
 ;;; and return the record. Assume that this procedure takes as arguments an
