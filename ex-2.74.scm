@@ -95,5 +95,16 @@
 ;;; and return the record. Assume that this procedure takes as arguments an
 ;;; employee's name and a list of all the divisions' files.
 
+(define (find-employee-record employee-name files)
+  (define (try files)
+    (if (null? files)
+      #f
+      (let ([record (get-record employee-name (car files))])
+        (or record (try (cdr files))))))
+  (try files))
+
+
+
+
 ;;; d.  When Insatiable takes over a new company, what changes must be made in
 ;;; order to incorporate the new personnel information into the central system?
