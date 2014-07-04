@@ -108,3 +108,9 @@
 
 ;;; d.  When Insatiable takes over a new company, what changes must be made in
 ;;; order to incorporate the new personnel information into the central system?
+
+; If the new company uses its own data representation for the personnel
+; information, we have to extend get-record and get-value to support the new
+; representation, like:
+; (put 'get-record 'B-tree (lambda (...) ...))
+; (put 'get-value 'red-black-tree (lambda (...) ...))
