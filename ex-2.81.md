@@ -53,6 +53,13 @@ found.  If we call `exp` with two complex numbers,
 > b. Is Louis correct that something had to be done about coercion with
 > arguments of the same type, or does `apply-generic` work correctly as is?
 
+At this moment, Louis' idea causes infinite loops.  So that he is not correct.
+
+But "coercing" a value to the same type might be a good idea to simplify
+`apply-generic` implementation.  Currently `apply-generic` supports automatic
+coercion only for generic operations with two arguments.  If we try to support
+arbitrary number of arguments, Louis' idea might be helpful.
+
 
 > c. Modify `apply-generic` so that it doesn't try coercion if the two
 > arguments have the same type.
