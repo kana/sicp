@@ -43,4 +43,19 @@
 ;;; Consider the case where there are some suitable mixed-type operations
 ;;; present in the table that will not be tried.)
 
-; TODO
+; This strategy does not try to coerce arguments to intermediate types in
+; a tower of types.  Suppose that there is an operation foo which is defined
+; only for (real complex).  If foo is called with values of subtypes, this
+; strategy always fails to call the appropriate procedure.  For example:
+;
+; (foo integer-value complex-value)
+;   ==> integer-value is coerced to complex, then foo is called as follows:
+;       (foo integer-value-coerced-to-complex complex-value)
+;       But foo is not defined for (complex complex).
+;
+; This strategy also fails because it does not try to coerce arguments to
+; supertypes.  For example:
+;
+; (foo real-value-1 real-value-2)
+;   ==> If real-value-2 is coerced to complex, the appropriate procedure will
+;       be called.  But no coercion happens in this case.
