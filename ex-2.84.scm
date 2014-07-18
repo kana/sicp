@@ -25,4 +25,39 @@
   (or (eq? type1 type2)
       (memq type2 (supertypes type1))))
 
-; TODO: Implement a modified version of apply-generic.
+; This apply-generic tries raising the leftmost argument with the lowest type
+; if an appropriate procedure is not found.
+;
+; But this strategy has a problem  If a generic operation foo is defined only
+; for (integer rational) and foo is called with two integers, this strategy
+; tries looking up many versions of foo in the following order:
+;
+; (1) (integer integer)
+; (2) (rational integer)
+; (3) (rational rational)
+; (4) (real rational)
+; (5) (real real)
+; (6) (complex real)
+; (7) (complex complex)
+;
+; So that the (integer rational) version will never be tried.  If generic
+; operations take 3 or more arguments, similar problems will frequently happen.
+; To avoid this problem, we have to try every combination of raised arguments.
+
+(define (apply-generic op . args)
+  (define (raise-one-level args)
+    (let go ([rest args])
+      (if (null? rest)
+         (error "No method for these types"
+                (list op types))
+         (let ([a0 (car rest)])
+           (if (and (supertype a0)
+                    (every (lambda (a) (type<=? (type-tag a0) (type-tag a)))
+                           args))
+             (cons (raise a0) (cdr rest))
+             (cons a0 (go (cdr rest)))))))
+  (let* ([types (map type-tag args)]
+         [proc (get op types)])
+    (if proc
+      (apply proc (map contents args))
+      (apply apply-generic op (raise-one-level args)))))
