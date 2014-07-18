@@ -22,6 +22,7 @@
         acc))))
 
 (define (type<=? type1 type2)
-  (memq type2 (supertypes type1)))
+  (or (eq? type1 type2)
+      (memq type2 (supertypes type1))))
 
 ; TODO: Implement a modified version of apply-generic.
