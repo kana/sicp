@@ -23,7 +23,28 @@
 
 
 
-; TODO: Implement push-down.
+; PUSH-DOWN is an internal utility for APPLY-GENERIC, and APPLY-GENERIC might
+; coerce arguments if an appropriate procedure is not found.  PUSH-DOWN is
+; a converter.  If automatic coercion happens while converting a given value,
+; PUSH-DOWN's results are not reliable.
+;
+; Therefore, PUSH-DOWN should be implemented without APPLY-GENERIC.
+(define (push-down x)
+  (let ([proc (get 'push-down (type-tag x))])
+    (if proc
+      (proc (contents x))
+      #f)))
+
+(put 'push-down 'complex
+     (lambda (z)
+       (attach-tag 'real (real-part z))))
+(put 'push-down 'real
+     (lambda (r)
+       (make-rational (round r) 1)))
+(put 'push-down 'rational
+     (lambda (q)
+       (attach-tag 'integer
+                   (round (/ (numer q) (denom q))))))
 
 
 
