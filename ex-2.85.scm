@@ -72,4 +72,7 @@
 
 
 
-; TODO: Implement a new apply-generic.
+(define %apply-generic-2.84 apply-generic)
+
+(define (apply-generic . xs)
+  (drop (apply %apply-generic-2.84 xs)))
