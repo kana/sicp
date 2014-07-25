@@ -23,25 +23,25 @@
 
 
 
-; PUSH-DOWN is an internal utility for APPLY-GENERIC, and APPLY-GENERIC might
-; coerce arguments if an appropriate procedure is not found.  PUSH-DOWN is
+; PROJECT is an internal utility for APPLY-GENERIC, and APPLY-GENERIC might
+; coerce arguments if an appropriate procedure is not found.  PROJECT is
 ; a converter.  If automatic coercion happens while converting a given value,
-; PUSH-DOWN's results are not reliable.
+; PROJECT's results are not reliable.
 ;
-; Therefore, PUSH-DOWN should be implemented without APPLY-GENERIC.
-(define (push-down x)
-  (let ([proc (get 'push-down (type-tag x))])
+; Therefore, PROJECT should be implemented without APPLY-GENERIC.
+(define (project x)
+  (let ([proc (get 'project (type-tag x))])
     (if proc
       (proc (contents x))
       #f)))
 
-(put 'push-down 'complex
+(put 'project 'complex
      (lambda (z)
        (attach-tag 'real (real-part z))))
-(put 'push-down 'real
+(put 'project 'real
      (lambda (r)
        (make-rational (round r) 1)))
-(put 'push-down 'rational
+(put 'project 'rational
      (lambda (q)
        (attach-tag 'integer
                    (round (/ (numer q) (denom q))))))
@@ -49,22 +49,22 @@
 
 
 
-; Like PUSH-DOWN, DROP is also a converter.  Automatic coercion must not be
+; Like PROJECT, DROP is also a converter.  Automatic coercion must not be
 ; happened in its process.  But DROP cannot be implemented without generic
-; operations -- PUSH-DOWN, RAISE, EQU?.  So that we have to investigate whether
+; operations -- PROJECT, RAISE, EQU?.  So that we have to investigate whether
 ; all generic operations in DROP will never trigger automatic coercion.
 ;
-; * PUSH-DOWN is implement without APPLY-GENERIC.  Automatic coercion will
+; * PROJECT is implement without APPLY-GENERIC.  Automatic coercion will
 ;   never happen.
-; * RAISE always takes a PUSH-DOWN'ed value.  So that RAISE always finds an
+; * RAISE always takes a PROJECT'ed value.  So that RAISE always finds an
 ;   appropriate procedure without automatic coercion.
 ; * EQU? always takes two values with the same type.  Like RAISE, automatic
 ;   coercion will never happen.
 ;
 ; Therefore automatic coercion will never happen while dropping, as far as
-; appropriate versions of PUSH-DOWN, RAISE and EQU? are defined.
+; appropriate versions of PROJECT, RAISE and EQU? are defined.
 (define (drop x)
-  (let ([xd (push-down x)])
+  (let ([xd (project x)])
     (if (and xd (equ? x (raise xd)))
       (drop xd)
       x)))
