@@ -2,12 +2,7 @@
 ;;; package. This will allow adjoin-term to work for polynomials with
 ;;; coefficients that are themselves polynomials.
 
+; Since our representation of term list is a list of nonzero terms.
+; So that the zero polynomial is represented as the empty list.
 (put '=zero? 'polynomial
-     (lambda (p)
-       (let go ([ts (term-list p)])
-         (cond [(empty-termlist? ts)
-                #t]
-               [(=zero? (coeff (first-term ts)))
-                (go (rest-terms ts))]
-               [else
-                 #f]))))
+     empty-termlist?)
