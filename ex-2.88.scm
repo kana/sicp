@@ -28,4 +28,8 @@
      (lambda (p)
        (make-poly (variable p) (negate-terms (term-list p)))))
 
-; TODO: Define sub-poly
+(define (sub-poly p1 p2)
+  (if (same-variable? (variable p1) (variable p2))
+    (add-poly p1 (negate p2))
+    (error "Polys not in same var -- SUB-POLY"
+           (list p1 p2))))
