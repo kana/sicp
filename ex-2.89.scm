@@ -31,12 +31,14 @@
 ;; many times depending on order-diff.  So that this adjoin-term should be
 ;; replaced with an optimized version if we want to make our system practical.
 (define (adjoin-term term term-list)
-  (let* ([new-order (order term)]
-         [first-order (order (first-term term-list))]
-         [order-diff (- new-order first-order)])
-    (cond [(<= 2 order-diff)
-           (adjoin-term term (cons 0 term-list))]
-          [(= 1 order-diff)
-           (cons (coeff term) term-list)]
-          [else
-            (error "The order of TERM must be greater than all terms in TERM-LIST")])))
+  (if (=zero? (coeff term))
+    term-list
+    (let* ([new-order (order term)]
+           [first-order (order (first-term term-list))]
+           [order-diff (- new-order first-order)])
+      (cond [(<= 2 order-diff)
+             (adjoin-term term (cons 0 term-list))]
+            [(= 1 order-diff)
+             (cons (coeff term) term-list)]
+            [else
+              (error "The order of TERM must be greater than all terms in TERM-LIST")]))))
