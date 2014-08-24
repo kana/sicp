@@ -25,20 +25,16 @@
 (define (rest-terms term-list) (cdr term-list))
 
 ;; adjoin-term is not tricky except it has to fill zeros if necessary.
-;;
-;; Note that this implementation is not efficient.  Our first-term is O(N)
-;; where N is the order of a given term, and adjoin-term is recursively called
-;; many times depending on order-diff.  So that this adjoin-term should be
-;; replaced with an optimized version if we want to make our system practical.
 (define (adjoin-term term term-list)
+  (define (pad-zeros tl n)
+    (if (= n 0)
+      tl
+      (pad-zeros (cons 0 tl) (- n 1))))
   (if (=zero? (coeff term))
     term-list
     (let* ([new-order (order term)]
            [first-order (order (first-term term-list))]
            [order-diff (- new-order first-order)])
-      (cond [(<= 2 order-diff)
-             (adjoin-term term (cons 0 term-list))]
-            [(= 1 order-diff)
-             (cons (coeff term) term-list)]
-            [else
-              (error "The order of TERM must be greater than all terms in TERM-LIST")]))))
+      (if (<= 1 order-diff)
+        (cons (coeff term) (pad-zeros term-list (- order-diff 1)))
+        (error "The order of TERM must be greater than all terms in TERM-LIST")]))))
