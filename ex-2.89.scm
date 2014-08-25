@@ -19,8 +19,9 @@
 ;; internal data formats between input and output of first-term.  So that we
 ;; have to fill the gap as follows:
 (define (translate-into-term term-as-term-list)
-  (list (- (length term-as-term-list) 1)
-        (car term-as-term-list)))
+  (make-term
+    (- (length term-as-term-list) 1)
+    (car term-as-term-list)))
 (define (first-term term-list) (translate-into-term term-list))
 (define (rest-terms term-list) (cdr term-list))
 
