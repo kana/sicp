@@ -42,7 +42,28 @@
 
 ;; Implement the generic operations for the "sparse" representation.
 
-; TODO
+(define (install-sparse-polynomial-package)
+  (define (tag x)
+    (attach-tag 'sparse-termlist x))
+
+  (put 'adjoin-term 'sparse-termlist
+       (lambda (term term-list)
+         (tag
+           (if (=zero? (coeff term))
+             term-list
+             (cons term term-list)))))
+  (put 'the-empty-termlist 'sparse-termlist
+       (lambda ()
+         (tag '())))
+  (put 'first-term '(sparse-termlist)
+       car)
+  (put 'rest-terms '(sparse-termlist)
+       (lambda (term-list)
+         (tag (cdr term-list))))
+  (put 'empty-termlist? '(sparse-termlist)
+       null?)
+
+  'done)
 
 
 ;; Implement the generic operations for the "dense" representation.
