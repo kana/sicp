@@ -68,4 +68,31 @@
 
 ;; Implement the generic operations for the "dense" representation.
 
-; TODO
+(define (install-dense-polynomial-package)
+  (define (tag-termlist x)
+    (attach-tag 'dense-termlist x))
+  (define (translate-into-term term-as-term-list)
+    (list (- (length term-as-term-list) 1)
+          (car term-as-term-list)))
+
+  (put 'adjoin-term 'dense-termlist
+       (lambda (term term-list)
+         (if (=zero? (coeff term))
+           term-list
+           (let* ([new-order (order term)]
+                  [first-order (order (first-term term-list))]
+                  [order-diff (- new-order first-order)])
+             (cond [(<= 2 order-diff)
+                    (adjoin-term term (cons 0 term-list))]
+                   [(= 1 order-diff)
+                    (cons (coeff term) term-list)]
+                   [else
+                     (error "The order of TERM must be greater than all terms in TERM-LIST")])))))
+  (put 'the-empty-termlist 'dense-termlist
+       (lambda ()
+         (tag-termlist '())))
+  (put 'first-term '(dense-termlist) translate-into-term)
+  (put 'rest-terms '(dense-termlist) cdr)
+  (put 'empty-termlist? '(dense-termlist) null?)
+
+  'done)
