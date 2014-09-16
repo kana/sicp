@@ -26,7 +26,12 @@
 ;;     (make-poly 'x (adjoin-term (make-term 1 (make-poly 'y '((1 6))))
 ;;                                (the-empty-termlist)))
 
-; TODO: Implement variable<? and variable>? to compare variables.
+(define (variable<? v1 v2)
+  (string<? (symbol->string v1) (symbol->string v2)))
+
+(define (variable>? v1 v2)
+  (variable<? v2 v1))
+
 
 ; TODO: Support addition and multiplication of numbers and polynomials.
 
