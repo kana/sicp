@@ -33,7 +33,27 @@
   (variable<? v2 v1))
 
 
-; TODO: Support addition and multiplication of numbers and polynomials.
+;; Suppose that we want to calculate 2x * 3y in our system.  First of all, we
+;; have to "normalize" polynomials to ensure that both polynomials have the
+;; same "type".  In this case, we have to "normalize" 3y as a polynomial in x,
+;; that is, 3 y x^0.  After this "normalization", the steps to multiply
+;; polynomials are the same as multiplication of polynomials in the same
+;; variable.
+;;
+;; But there is a pitfall.  The coefficient of 2x is a plain number 2, while
+;; the coefficient of 3 y x^0 is a polynomial 3y.  Polynomial multiplication
+;; involves multiplication of coefficients.  So that we have to support
+;; multiplication of numbers and polynomials.  The same can be said for
+;; addition of polynomials in different variables.
+
+(put 'add '(complex polynomial)
+     (lambda (z p)
+       (add-poly (make-poly (variable p)
+                            (adjoin-term (make-term 0 z) (the-empty-termlist)))
+                 p)))
+(put 'add '(polynomial complex)
+     (lambda (p z)
+       (add z p)))
 
 ; TODO: Redefine add-poly and mul-poly to support polynomials in different
 ;       variables.
