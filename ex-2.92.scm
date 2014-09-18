@@ -55,5 +55,14 @@
      (lambda (p z)
        (add z p)))
 
+(put 'mul '(complex polynomial)
+     (lambda (z p)
+       (mul-poly (make-poly (variable p)
+                            (adjoin-term (make-term 0 z) (the-empty-termlist)))
+                 p)))
+(put 'mul '(polynomial complex)
+     (lambda (p z)
+       (mul z p)))
+
 ; TODO: Redefine add-poly and mul-poly to support polynomials in different
 ;       variables.
