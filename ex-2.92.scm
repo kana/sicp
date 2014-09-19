@@ -64,5 +64,36 @@
      (lambda (p z)
        (mul z p)))
 
-; TODO: Redefine add-poly and mul-poly to support polynomials in different
-;       variables.
+
+;; Finally, we can redefine add-poly and mul-poly to support polynomials in
+;; different variables.
+
+(define (add-poly p1 p2)
+  (let ([v1 (variable p1)]
+        [v2 (variable p2)])
+    (cond [(variable<? v1 v2)
+           (add-poly
+             p1
+             (make-poly v1
+                        (adjoin-term (make-term 0 p2) (the-empty-termlist))))]
+          [(variable>? v1 v2)
+           (add-poly p2 p1)]
+          [else
+            (make-poly v1
+                       (add-terms (term-list p1)
+                                  (term-list p2)))])))
+
+(define (mul-poly p1 p2)
+  (let ([v1 (variable p1)]
+        [v2 (variable p2)])
+    (cond [(variable<? v1 v2)
+           (mul-poly
+             p1
+             (make-poly v1
+                        (adjoin-term (make-term 0 p2) (the-empty-termlist))))]
+          [(variable>? v1 v2)
+           (mul-poly p2 p1)]
+          [else
+            (make-poly v1
+                       (mul-terms (term-list p1)
+                                  (term-list p2)))])))
