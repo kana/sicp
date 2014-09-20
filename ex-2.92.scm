@@ -45,24 +45,28 @@
 ;; involves multiplication of coefficients.  So that we have to support
 ;; multiplication of numbers and polynomials.  The same can be said for
 ;; addition of polynomials in different variables.
+;;
+;; A simple solution is to put variations of ADD and MUL for each combination
+;; of polynomial and non-polynomial types.  But there are many combinations to
+;; be put, so that it is not additive.
+;;
+;; Therefore, here we assume that polynomial is a supertype of complex.  With
+;; this assumption, there is no need to put variations of ADD and MUL.  Numbers
+;; are automatically coerced by apply-generic and results are automatically
+;; simplified.
 
-(put 'add '(complex polynomial)
-     (lambda (z p)
-       (add-poly (make-poly (variable p)
-                            (adjoin-term (make-term 0 z) (the-empty-termlist)))
-                 p)))
-(put 'add '(polynomial complex)
-     (lambda (p z)
-       (add z p)))
+(load "./ex-2.85.scm")
 
-(put 'mul '(complex polynomial)
-     (lambda (z p)
-       (mul-poly (make-poly (variable p)
-                            (adjoin-term (make-term 0 z) (the-empty-termlist)))
-                 p)))
-(put 'mul '(polynomial complex)
-     (lambda (p z)
-       (mul z p)))
+(put 'raise (complex)
+     (lambda (z)
+       (make-poly 'fallback-variable
+                  (adjoin-term (make-term 0 z) (the-empty-termlist))))
+
+(put 'supertype 'complex 'poly)
+
+(put 'project (poly)
+     (lambda (p)
+       (coeff (first-term p))))
 
 
 ;; Finally, we can redefine add-poly and mul-poly to support polynomials in
