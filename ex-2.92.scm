@@ -57,10 +57,15 @@
 
 (load "./ex-2.85.scm")
 
+(define (normalize poly-or-x v)
+  (make-poly v
+             (adjoin-term
+               (make-term 0 poly-or-x)
+               (the-empty-termlist))))
+
 (put 'raise (complex)
      (lambda (z)
-       (make-poly 'fallback-variable
-                  (adjoin-term (make-term 0 z) (the-empty-termlist))))
+       (normalize z 'fallback-variable)))
 
 (put 'supertype 'complex 'poly)
 
@@ -76,10 +81,7 @@
   (let ([v1 (variable p1)]
         [v2 (variable p2)])
     (cond [(variable<? v1 v2)
-           (add-poly
-             p1
-             (make-poly v1
-                        (adjoin-term (make-term 0 p2) (the-empty-termlist))))]
+           (add-poly p1 (normalize p2 v1))]
           [(variable>? v1 v2)
            (add-poly p2 p1)]
           [else
@@ -91,10 +93,7 @@
   (let ([v1 (variable p1)]
         [v2 (variable p2)])
     (cond [(variable<? v1 v2)
-           (mul-poly
-             p1
-             (make-poly v1
-                        (adjoin-term (make-term 0 p2) (the-empty-termlist))))]
+           (mul-poly p1 (normalize p2 v1))]
           [(variable>? v1 v2)
            (mul-poly p2 p1)]
           [else
