@@ -25,3 +25,17 @@
 ;      A       B       C
 ;
 ; With doubly-linked lists, a deque can be implemented like a queue.
+
+(define (make-dl-entry value)
+  (list value '() '()))
+
+(define dl-value car)
+(define dl-next cadr)
+(define dl-prev caddr)
+
+(define (set-dl-next! dl-entry p*)
+  (define p (cdr dl-entry))
+  (set-car! p p*))
+(define (set-dl-prev! dl-entry p*)
+  (define p (cddr dl-entry))
+  (set-car! p p*))
