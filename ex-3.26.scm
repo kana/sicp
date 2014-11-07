@@ -43,4 +43,15 @@
 
 ; Examples
 
-; TODO
+(define t (make-table))
+#?=t
+#?=(lookup '(3) t)
+#?=(lookup '(2 1 3) t)
+#?=(lookup '(9) t)
+(insert! '(2) 'A t)
+(insert! '(2 1 3) 'ABC t)
+(insert! '(9) 'Z t)
+#?=t
+#?=(lookup '(2) t)
+#?=(lookup '(2 1 3) t)
+#?=(lookup '(9) t)
