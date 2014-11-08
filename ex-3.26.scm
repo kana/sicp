@@ -20,7 +20,46 @@
 ;
 ; Let's revise the answer to Exercise 3.25 by abstracting access to sets:
 
-; TODO
+(define (make-empty-set)
+  '())
+(define empty-set? null?)
+
+(define (make-entry key)
+  (cons key (make-table)))
+(define entry-key car)
+(define entry-table cdr)
+
+(define (make-table)
+  (cons #f (make-empty-set)))
+(define table-value car)
+(define set-table-value! set-car!)
+(define table-set cdr)
+(define set-table-set! set-cdr!)
+
+(define (lookup keys table)
+  (define (go keys table)
+    (if (null? keys)
+      (table-value table)
+      (let ([entry (lookup-set (car keys) (table-set table))])
+        (if entry
+          (go (cdr keys) (entry-table entry))
+          #f))))
+  (go keys table))
+
+(define (insert! keys value table)
+  (define (go keys table)
+    (if (null? keys)
+      (set-table-value! table value)
+      (let ([entry (lookup-set (car keys) (table-set table))])
+        (cond
+          [entry
+            (go (cdr keys) (entry-table entry))]
+          [else
+            (let ([new-entry (make-entry (car keys))])
+              (set-table-set! table (adjoin-set! new-entry (table-set table)))
+              (go (cdr keys) (entry-table new-entry)))]))))
+  (go keys table)
+  'ok)
 
 
 
