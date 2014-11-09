@@ -67,7 +67,11 @@
 ; If a set is represented as an unordered list, lookup-set and adjoin-set! can
 ; be defined as follows:
 
-; TODO
+(define (lookup-set key set)
+  (assoc key set))
+
+(define (adjoin-set! entry set)
+  (cons entry set))
 
 
 
