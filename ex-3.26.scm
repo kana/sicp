@@ -79,7 +79,34 @@
 ; If a set is represented as a binary tree, lookup-set and adjoin-set! can be
 ; defined as follows:
 
-; TODO
+(define set-entry car)
+(define set-left cadr)
+(define set-right caddr)
+(define (set-set-left! set x)
+  (set-car! (cdr set) x))
+(define (set-set-right! set x)
+  (set-car! (cddr set) x))
+
+(define (lookup-set key set)
+  (if (empty-set? set)
+    #f
+    (let* ([entry (set-entry set)]
+           [ekey (entry-key entry)])
+      (cond [(< key ekey) (lookup-set key (set-left set))]
+            [(> key ekey) (lookup-set key (set-right set))]
+            [else entry]))))
+
+(define (adjoin-set! entry set)
+  (if (empty-set? set)
+    (list entry (make-empty-set) (make-empty-set))
+    (let* ([sentry (set-entry set)]
+           [skey (entry-key sentry)]
+           [gkey (entry-key entry)])
+      (cond [(< gkey skey)
+             (set-set-left! set (adjoin-set! entry (set-left set)))]
+            [(> gkey skey)
+             (set-set-right! set (adjoin-set! entry (set-right set)))])
+      set)))
 
 
 
