@@ -139,7 +139,9 @@ The same can be said if operands are evaluated in any order.
 > Explain why `memo-fib` computes the *n*th Fibonacci number in a number of
 > steps proportional to *n*.
 
-TODO
+As described above, recalculation will never be happened.  So that required
+steps to evaluate `(memo-fib n)` is proportional to *n*.  But its ratio depends
+on the performance of looking up the table.
 
 
 
