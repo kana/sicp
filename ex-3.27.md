@@ -149,4 +149,7 @@ on the performance of looking up the table.
 > Would the scheme still work if we had simply defined `memo-fib` to be
 > `(memoize fib)`?
 
-TODO
+No.  `fib` calls `fib` recursively.  `fib` itself is not memoized.  If
+`memo-fib` is defined by `(memoize fib)`, only the final result is recorded in
+the table.  Intermediate calls of `fib` will never look up the table to avoid
+recalculation.
