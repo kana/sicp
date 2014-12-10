@@ -32,4 +32,26 @@
 
 ;;; b. in terms of atomic test-and-set! operations.
 
-; TODO
+(define (make-semaphore n)
+  (let ([cell (list #f)]
+        [c 0])
+    (define (acquire)
+      (if (test-and-set! cell)
+        (acquire)
+        (cond [(< c n)
+               (set! c (+ c 1))
+               (clear!)]
+              [else
+                (clear!)
+                (acquire)])))
+    (define (release)
+      (cond [(test-and-set! cell)
+             (release)]
+            [else
+              (set! c (- c 1))
+              (clear!)])
+    (define (dispatch m)
+      (cond [(eq? m 'acquire) (acquire)]
+            [(eq? m 'release) (release)]
+            [else (error "Unknown message sent to a semaphore" m)]))
+    dispatch))
