@@ -1,0 +1,11 @@
+(load "./sec-3.5.scm")
+(load "./ex-3.55.scm")
+
+(define sums (partial-sums integers))
+(print (stream-ref sums 0))
+(print (stream-ref sums 1))
+(print (stream-ref sums 2))
+(print (stream-ref sums 3))
+(print (stream-ref sums 4))
+(print (stream-ref sums 5))
+(print (stream-ref sums 6))
