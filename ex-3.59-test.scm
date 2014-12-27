@@ -1,0 +1,22 @@
+(load "./sec-3.5.scm")
+(load "./ex-3.59.scm")
+
+(print "(a)")
+(let ([s (stream-enumerate-interval 10 15)])
+  (display-stream (integrate-series s)))
+(newline)
+
+(newline)
+(print "(b)")
+(let go ([names '(exp-series cosine-series sine-series)])
+  (if (not (null? names))
+    (let* ([name (car names)]
+           [s (eval name (current-module))])
+      (write name)
+      (display " ==> ")
+      (do ((i 0 (+ i 1)))
+        ((= i 15))
+        (display (stream-ref s i))
+        (display ", "))
+      (display "...\n")
+      (go (cdr names)))))
