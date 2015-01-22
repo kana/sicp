@@ -32,6 +32,6 @@
 
 Yes, it's safe.  By definition, two serialized procedures will never be
 interleaved if both are created by the same serializer.  The same can be said
-even if two serialized procedures are created from the same original procedure.
+even if two serialized procedures are the same.
 
 So that there is no difference between the two versions of `make-account`.
