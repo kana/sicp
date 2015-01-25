@@ -1,3 +1,5 @@
+(load "./sec-3.5.scm")
+
 ;;; Exercise 3.70.  It would be nice to be able to generate streams in which
 ;;; the pairs appear in some useful order, rather than in the order that
 ;;; results from an ad hoc interleaving process. We can use a technique similar
@@ -10,6 +12,27 @@
 ;;; merge-weighted takes an additional argument weight, which is a procedure
 ;;; that computes the weight of a pair, and is used to determine the order in
 ;;; which elements should appear in the resulting merged stream. [69]
+
+(define (merge-weighted s1 s2 weight)
+  (cond [(stream-null? s1) s2]
+        [(stream-null? s2) s1]
+        [else
+         (let* ([s1car (stream-car s1)]
+                [s2car (stream-car s2)]
+                [w1 (weight s1car)]
+                [w2 (weight s2car)])
+           (cond [(< w1 w2)
+                  (cons-stream s1car
+                               (merge-weighted (stream-cdr s1) s2 weight))]
+                 [(> w1 w2)
+                  (cons-stream s2car
+                               (merge-weighted s1 (stream-cdr s2) weight))]
+                 [else
+                  (cons-stream s1car
+                               (cons-stream s2car
+                                            (merge-weighted (stream-cdr s1)
+                                                            (stream-cdr s2)
+                                                            weight)))]))]))
 
 ;;; Using this, generalize pairs to a procedure weighted-pairs that takes two
 ;;; streams, together with a procedure that computes a weighting function, and
