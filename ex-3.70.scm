@@ -38,6 +38,15 @@
 ;;; streams, together with a procedure that computes a weighting function, and
 ;;; generates the stream of pairs, ordered according to weight.
 
+(define (weighted-pairs s1 s2 weight)
+  (cons-stream
+    (list (stream-car s1) (stream-car s2))
+    (merge-weighted
+      (stream-map (lambda (s2j) (list (stream-car s1) s2j))
+                  (stream-cdr s2))
+      (weighted-pairs (stream-cdr s1) (stream-cdr s2) weight)
+      weight)))
+
 ;;; Use your procedure to generate
 
 ;;; a. the stream of all pairs of positive integers (i,j) with i < j ordered
