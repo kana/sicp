@@ -52,6 +52,12 @@
 ;;; a. the stream of all pairs of positive integers (i,j) with i < j ordered
 ;;; according to the sum i + j
 
+(define sa (weighted-pairs integers integers (lambda (ij) (apply + ij))))
+(print "sa ==>")
+(do ((i 0 (+ i 1)))
+  ((= i 10))
+  (print (stream-ref sa i)))
+
 ;;; b. the stream of all pairs of positive integers (i,j) with i < j, where
 ;;; neither i nor j is divisible by 2, 3, or 5, and the pairs are ordered
 ;;; according to the sum 2 i + 3 j + 5 i j.
