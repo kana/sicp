@@ -12,14 +12,21 @@
 
 To simplify description, let's call interleavable pieces of code as follows:
 
-* A: (* x x)
-* B: Assign the result of (* x x) to x
-* P: (set! x (+ x 1))
+* A1: `(* x x)`
+* A2: `(set! x <ressult of A1>)`
+* B1: `(+ x 1)`)
+* B2: `(set! x <ressult of B1>)`
+
+Note that:
+
+* A1, B1 and B2 are not interleaved.
+* But A2 might be interleaved into B1 and B2.
 
 Possible orderings are:
 
-* A (10 * 10) -> B (x = 100) -> P (x = 100 + 1)
-* A (10 * 10) -> P (x = 10 + 1) -> B (x = 100)
-* P (x = 10 + 1) -> A (11 * 11) -> B (x = 121)
+* A1 (10 * 10) -> A2 (x = 100) -> B1 (100 + 1) -> B2 (x = 101)
+* A1 (10 * 10) -> B1 (10 +  1) -> A2 (x = 100) -> B2 (x =  11)
+* A1 (10 * 10) -> B1 (10 +  1) -> B2 (x =  11) -> A2 (x = 100)
+* B1 (10 +  1) -> B2 (x =  11) -> A1 (11 * 11) -> A2 (x = 121)
 
-So that 100, 101 and 121 remain.
+So that 11, 100, 101 and 121 remain.
