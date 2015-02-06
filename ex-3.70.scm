@@ -61,3 +61,19 @@
 ;;; b. the stream of all pairs of positive integers (i,j) with i < j, where
 ;;; neither i nor j is divisible by 2, 3, or 5, and the pairs are ordered
 ;;; according to the sum 2 i + 3 j + 5 i j.
+
+(define not235s (stream-filter
+                  (lambda (n) (and (not (= (mod n 2) 0))
+                                   (not (= (mod n 3) 0))
+                                   (not (= (mod n 5) 0))))
+                  integers))
+(define sb (weighted-pairs not235s
+                           not235s
+                           (lambda (ij)
+                             (+ (* 2 (car ij))
+                                (* 3 (cadr ij))
+                                (* 5 (car ij) (cadr ij))))))
+(print "sb ==>")
+(do ((i 0 (+ i 1)))
+  ((= i 30))
+  (print (stream-ref sb i)))
