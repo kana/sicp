@@ -1,5 +1,3 @@
-(load "./sec-3.5.scm")
-
 ;;; Exercise 3.70.  It would be nice to be able to generate streams in which
 ;;; the pairs appear in some useful order, rather than in the order that
 ;;; results from an ad hoc interleaving process. We can use a technique similar
@@ -53,10 +51,6 @@
 ;;; according to the sum i + j
 
 (define sa (weighted-pairs integers integers (lambda (ij) (apply + ij))))
-(print "sa ==>")
-(do ((i 0 (+ i 1)))
-  ((= i 10))
-  (print (stream-ref sa i)))
 
 ;;; b. the stream of all pairs of positive integers (i,j) with i < j, where
 ;;; neither i nor j is divisible by 2, 3, or 5, and the pairs are ordered
@@ -73,7 +67,3 @@
                              (+ (* 2 (car ij))
                                 (* 3 (cadr ij))
                                 (* 5 (car ij) (cadr ij))))))
-(print "sb ==>")
-(do ((i 0 (+ i 1)))
-  ((= i 30))
-  (print (stream-ref sb i)))
