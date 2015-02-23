@@ -19,7 +19,9 @@
               (acquire)]))
     (define (release)
       (mutex 'acquire)
-      (set! c (- c 1))
+      (if (<= 1 c)
+        (set! c (- c 1))
+        (error "This semaphore is not acquired yet"))
       (mutex 'release))
     (define (dispatch m)
       (cond [(eq? m 'acquire) (acquire)]
@@ -48,7 +50,9 @@
       (cond [(test-and-set! cell)
              (release)]
             [else
-              (set! c (- c 1))
+              (if (<= 1 c)
+                (set! c (- c 1))
+                (error "This semaphore is not acquired yet"))
               (clear!)])
     (define (dispatch m)
       (cond [(eq? m 'acquire) (acquire)]
