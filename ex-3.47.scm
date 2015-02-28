@@ -42,9 +42,9 @@
         (acquire)
         (cond [(< c n)
                (set! c (+ c 1))
-               (clear!)]
+               (clear! cell)]
               [else
-                (clear!)
+                (clear! cell)
                 (acquire)])))
     (define (release)
       (cond [(test-and-set! cell)
@@ -53,7 +53,7 @@
               (if (<= 1 c)
                 (set! c (- c 1))
                 (error "This semaphore is not acquired yet"))
-              (clear!)])
+              (clear! cell)])
     (define (dispatch m)
       (cond [(eq? m 'acquire) (acquire)]
             [(eq? m 'release) (release)]
