@@ -25,18 +25,20 @@
             [else
               (error "Unknown message for RAND: " message)]))))
 
-((rand 'reset) 1024)
-(print (rand 'generate))
-;=> 423224377
-(print (rand 'generate))
-;=> 1581628030
-(print (rand 'generate))
-;=> 502725599
+(define (main args)
+  ((rand 'reset) 1024)
+  (print (rand 'generate))
+  ;=> 423224377
+  (print (rand 'generate))
+  ;=> 1581628030
+  (print (rand 'generate))
+  ;=> 502725599
 
-((rand 'reset) 1024)
-(print (rand 'generate))
-;=> 423224377
-(print (rand 'generate))
-;=> 1581628030
-(print (rand 'generate))
-;=> 502725599
+  ((rand 'reset) 1024)
+  (print (rand 'generate))
+  ;=> 423224377
+  (print (rand 'generate))
+  ;=> 1581628030
+  (print (rand 'generate))
+  ;=> 502725599
+  )
