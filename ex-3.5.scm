@@ -43,10 +43,12 @@
       (P x y)))
   (* (- x2 x1) (- y2 y1) (monte-carlo trials region-test)))
 
-(print (exact->inexact
-         (estimate-integral
-           (lambda (x y) (<= (+ (* x x) (* y y)) (* 1 1)))
-           -1 -1
-           1 1
-           100000000)))
-;; ==> 3.14170868, 3.14150032, etc
+(define (main args)
+  (print (exact->inexact
+           (estimate-integral
+             (lambda (x y) (<= (+ (* x x) (* y y)) (* 1 1)))
+             -1 -1
+             1 1
+             100000000)))
+  ;; ==> 3.14170868, 3.14150032, etc
+  )
