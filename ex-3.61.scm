@@ -15,6 +15,7 @@
 ;;; exercise 3.60.
 
 (define (invert-unit-series S)
-  (cons-stream 1
-               (mul-series (scale-stream (stream-cdr S) -1)
-                           (invert-unit-series S))))
+  (define X (cons-stream 1
+                         (mul-series (scale-stream (stream-cdr S) -1)
+                                     X)))
+  X)
