@@ -10,10 +10,18 @@
 (load "./ex-3.60.scm")
 (load "./ex-3.61.scm")
 
+(define (invert-series S)
+  (define X (scale-stream
+              (cons-stream 1
+                           (mul-series (scale-stream (stream-cdr S) -1)
+                                       X))
+              (/ 1 (stream-car S))))
+  X)
+
 (define (div-series psn psd)
   (if (= (stream-car psd) 0)
     (error "div-series: Denominator must begin with a nonzero constant term"))
-  (mul-series psn (invert-unit-series psd)))
+  (mul-series psn (invert-series psd)))
 
 (define tangent-series (div-series sine-series cosine-series))
 
