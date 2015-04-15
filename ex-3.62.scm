@@ -25,9 +25,18 @@
 
 (define tangent-series (div-series sine-series cosine-series))
 
-(define s tangent-series)
-(do ((i 0 (+ i 1)))
-  ((= i 30))
-  (display (stream-ref s i))
-  (display ", "))
-(display "...\n")
+(define zeros (cons-stream 0 zeros))
+(define one (cons-stream 1 zeros))
+(define two-or-more (stream-cdr integers))
+(define x (mul-series two-or-more (div-series one two-or-more)))
+
+(define ss (list tangent-series x))
+
+(for-each
+  (lambda (s)
+    (do ((i 0 (+ i 1)))
+      ((= i 30))
+      (display (stream-ref s i))
+      (display ", "))
+    (display "...\n"))
+  ss)
