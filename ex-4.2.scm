@@ -8,7 +8,9 @@
 ;;; a. What is wrong with Louis's plan? (Hint: What will Louis's evaluator do
 ;;; with the expression (define x 3)?)
 
-;; TODO
+;; Expressions of procedure applications are written as lists.
+;; Expressions of special forms such as definitions are also written as lists.
+;; Louis's eval treats all special forms as if they are procedure applications.
 
 ;;; b. Louis is upset that his plan didn't work. He is willing to go to any
 ;;; lengths to make his evaluator recognize procedure applications before it
