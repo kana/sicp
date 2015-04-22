@@ -19,4 +19,17 @@
 ;;; For example, instead of (factorial 3) we will now have to write (call
 ;;; factorial 3) and instead of (+ 1 2) we will have to write (call + 1 2).
 
-;; TODO
+;; All we have to do is to update APPLICATION?, OPERATOR and OPERANDS.
+;; Because the new syntax changes only how procedure applications are written.
+
+;; The procedures for the original syntax are:
+
+(define (application? exp) (pair? exp))
+(define (operator exp) (car exp))
+(define (operands exp) (cdr exp))
+
+;; While the ones for the new syntax are:
+
+(define (application? exp) (tagged-list? exp 'call))
+(define (operator exp) (cadr exp))
+(define (operands exp) (cddr exp))
