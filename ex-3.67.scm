@@ -1,4 +1,5 @@
 (load "./sec-3.5.scm")
+(load "./ex-3.66-test.scm")
 
 ;; (S0,T0) | (S0,T1) (S0,T2) ...
 ;; -----------------------------
@@ -12,10 +13,12 @@
                   (stream-cdr t))
       (pairs (stream-cdr s) t))))
 
-(define s (pairs integers integers))
-(do ([i 0 (+ i 1)])
-  ((= i 20))
-  (print (stream-ref s i)))
+(define (main args)
+  (define s (pairs integers integers))
+  (do ([i 0 (+ i 1)])
+    ((= i 20))
+    (print (stream-ref s i)))
+  )
 ; ==> (1 1)
 ;     (1 2)
 ;     (2 1)
