@@ -6,17 +6,22 @@
 (load "./ex-3.70.scm")
 
 (define (group-by s key)
-  (let go ([s (stream-cdr s)]
-           [w0 (key (stream-car s))]
-           [es (list (stream-car s))])
-    (if (= w0 (key (stream-car s)))
-      (go (stream-cdr s)
-          w0
-          (cons (stream-car s) es))
-      (cons-stream (cons w0 es)
-                   (go (stream-cdr s)
-                       (key (stream-car s))
-                       (list (stream-car s)))))))
+  (if (stream-null? s)
+    the-empty-stream
+    (let go ([s (stream-cdr s)]
+             [w0 (key (stream-car s))]
+             [es (list (stream-car s))])
+      (cond [(stream-null? s)
+             (cons-stream (cons w0 es) the-empty-stream)]
+            [(= w0 (key (stream-car s)))
+             (go (stream-cdr s)
+                 w0
+                 (cons (stream-car s) es))]
+            [else
+              (cons-stream (cons w0 es)
+                           (go (stream-cdr s)
+                               (key (stream-car s))
+                               (list (stream-car s))))]))))
 
 (define (s-numbers)
   (define (weight ij)
