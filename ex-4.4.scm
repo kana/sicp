@@ -52,4 +52,26 @@
 
 ;;; Alternatively, show how to implement and and or as derived expressions.
 
-; TODO
+(define (eval-and exps env)
+  (eval (and->if exps) env))
+
+(define (and->if exps)
+  (if (null? (cdr exps))
+    (car exps)
+    (let ([%result (gensym)])
+      `(let ([,%result ,(car exps)])
+         (if ,%result
+           ,(and-if (cdr exps))
+           #f)))))
+
+(define (eval-or exps env)
+  (eval (or->if exps) env))
+
+(define (or->if exps)
+  (if (null? (cdr exps))
+    (car exps)
+    (let ([%result (gensym)])
+      `(let ([,%result ,(car exps)])
+         (if ,%result
+           ,%result
+           ,(or-if (cdr exps)))))))
