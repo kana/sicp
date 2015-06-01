@@ -21,8 +21,10 @@
                (error "ELSE clause isn't last -- COND->IF"
                       clauses))]
             [(cond-extended-clause? first)
-             ; CONT
-             (...)]
+             `(let ((result ,(cond-predicate first)))
+                (if result
+                  (,(cond-recipient first) result)
+                  ,(expand-clauses rest)))]
             [else
               (make-if (cond-predicate first)
                        (sequence->exp (cond-actions first))
