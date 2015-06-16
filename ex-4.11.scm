@@ -31,3 +31,35 @@
 ;   (set-cdr! frame (cons val (cdr frame))))
 (define (add-binding-to-frame! var val frame)
   (set-car! frame (cons (make-binding var val) (car frame))))
+
+
+;; But, unfortunately, set-variable-value! and define-variable! change an
+;; existing binding.  This operation is not abstracted.  So that we have to
+;; provide it and modify the two procedures to use it.
+
+(define (set-binding-value! binding val)
+  (set-cdr! binding val))
+
+(define (set-variable-value! var val env)
+  (define (env-loop env)
+    (define (scan bindings)
+      (cond ((null? bindings)
+             (env-loop (enclosing-environment env)))
+            ((eq? var (binding-variable (car bindings)))
+             (set-binding-value! (car bindings) val))
+            (else (scan (cdr bindings)))))
+    (if (eq? env the-empty-environment)
+        (error "Unbound variable -- SET!" var)
+        (let ((frame (first-frame env)))
+          (scan frame))))
+  (env-loop env))
+
+(define (define-variable! var val env)
+  (let ((frame (first-frame env)))
+    (define (scan bindings)
+      (cond ((null? bindings)
+             (add-binding-to-frame! var val frame))
+            ((eq? var (binding-variable (car bindings)))
+             (set-binding-value! (car bindings) val))
+            (else (scan (cdr bindings)))))
+    (scan frame)))
