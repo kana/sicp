@@ -58,14 +58,16 @@
 
 (define (scan-environment var env found not-found-in-frame not-found-in-env)
   (define frame (first-frame env))
-  (let go ((vars (frame-variables frame))
-           (vals (frame-values frame)))
-    (cond ((null? vars)
-           (not-found-in-frame frame))
-          ((eq? var (car vars))
-           (found vars vals))
-          (else
-            (go (cdr vars) (cdr vals))))))
+  (if (eq? env the-empty-environment)
+    (not-found-in-env)
+    (let go ((vars (frame-variables frame))
+             (vals (frame-values frame)))
+      (cond ((null? vars)
+             (not-found-in-frame frame))
+            ((eq? var (car vars))
+             (found vars vals))
+            (else
+              (go (cdr vars) (cdr vals)))))))
 
 
 ;; And the procedure can be redefined as follows:
