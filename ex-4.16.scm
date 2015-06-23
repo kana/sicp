@@ -5,7 +5,13 @@
 ;;; a.  Change `lookup-variable-value` (section 4.1.3) to signal an error if
 ;;; the value it finds is the symbol *unassigned*.
 
-; TODO
+(define lookup-variable-value
+  (let ((%lookup-variable-value lookup-variable-value))
+    (lambda (var env)
+      (let ((val (%lookup-variable-value var env)))
+        (if (eq? val '*unassigned*)
+          (error "Unassigned variable" var)
+          val)))))
 
 ;;; b.  Write a procedure `scan-out-defines` that takes a procedure body and
 ;;; returns an equivalent one that has no internal definitions, by making the
