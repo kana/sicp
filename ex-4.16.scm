@@ -17,7 +17,32 @@
 ;;; returns an equivalent one that has no internal definitions, by making the
 ;;; transformation described above.
 
-; TODO
+(define (scan-out-defines body)
+  (define (split-defines body)
+    (let go ((body body)
+             (defines '())
+             (non-defines '()))
+      (cond ((null? body)
+             (cons (reverse defines) (reverse non-defines)))
+            ((definition? (car body))
+             (go (cdr body) (cons (car body) defines) non-defines))
+            (else
+              (go (cdr body) defines (cons (car body) non-defines))))))
+  (define (to-declaration def)
+    (list (definition-variable def)
+          '*unassigned*))
+  (define (to-assignment def)
+    (list 'set!
+          (definition-variable def)
+          (definition-value def)))
+  ;; `(let ,(map to-declaration defines)
+  ;;    ,@(map to-assignment defines)
+  ;;    ,@non-defines)
+  (append
+    (list 'let (map to-declaration defines))
+    (append
+      (map to-assignment defines)
+      non-defines)))
 
 ;;; c.  Install `scan-out-defines` in the interpreter, either in
 ;;; `make-procedure` or in `procedure-body` (see section 4.1.3). Which place is
