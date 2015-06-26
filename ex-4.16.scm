@@ -48,4 +48,22 @@
 ;;; `make-procedure` or in `procedure-body` (see section 4.1.3). Which place is
 ;;; better? Why?
 
-; TODO
+(define (make-procedure parameters body env)
+  (list 'procedure parameters (scan-out-defines body) env))
+
+(define (procedure-body p)
+  (scan-out-defines (caddr p)))
+
+;; Each has its own merit:
+;;
+;; * In make-procedure: scan-out-defines is applied only once for each
+;;   procedure.  It would improve performance of the metacircular evaluator,
+;;   because procedure-body is expected to be applied for each application of
+;;   compound procedures (in the metacircular evaluator), and scan-out-defines
+;;   returns the equivalent result for each application with the same
+;;   arguments.
+;;
+;; * In procedure-body: this keeps the original body.  If the metacircular
+;;   evaluator found an error while applying a compound procedure, it would be
+;;   useful for users to show where the error happens.  The original body must
+;;   be kept to provide useful information to users.
