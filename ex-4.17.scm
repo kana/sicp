@@ -21,7 +21,35 @@
 ; >         (set! v <e2>)
 ; >         <e3>))
 
-; TODO
+; Sequential version:
+;
+;     --------------------- The environment
+;     |                   | when evaluating the lambda expression.
+;     ---------------------
+;               ^
+;               |
+;     ---------------------
+;     | <vars>: ...       | The environment
+;     | u: result of <e1> | when applying the lambda object, and
+;     | v: result of <e2> | when evaluating <e3>.
+;     ---------------------
+
+; Scanned-out version:
+;
+;     --------------------- The environment
+;     |                   | when evaluating the lambda expression.
+;     ---------------------
+;               ^
+;               |
+;     --------------------- The environment
+;     | <vars>: ...       | when applying the lambda object.
+;     ---------------------
+;               ^
+;               |
+;     --------------------- The environment
+;     | u: result of <e1> | when evaluating <e3>
+;     | v: result of <e2> |
+;     ---------------------
 
 
 
