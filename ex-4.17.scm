@@ -56,7 +56,7 @@
 
 ;;; Why is there an extra frame in the transformed program?
 
-; TODO
+; Because the transformed program uses LET for U and V.
 
 
 
