@@ -64,7 +64,22 @@
 ;;; Explain why this difference in environment structure can never make
 ;;; a difference in the behavior of a correct program.
 
-; TODO
+; When evaluating <e3>, values of U and V must be results of <e1> and <e2>.
+;
+; If <vars> does not contain U and V, both environments are equivalent because
+; no variable is overwritten.
+;
+; If <vars> contains U and/or V:
+;
+; * The sequential version overwrites values of U and/or V if <vars> contains
+;   U and/or V.  So the two variables are bound to results of <e1> and <e2>
+;   when evaluating <e3>.
+;
+; * The scanned-out version doesn't overwrite U and/or V, but the new frame
+;   hides values of U and/or V in <vars>.  So the two variables are bound to
+;   results of <e1> and <e2> when evaluating <e3>.
+;
+; Therefore both environment structures are equivalent to evaluate <e3>.
 
 
 
