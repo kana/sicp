@@ -22,7 +22,12 @@
 
 ;;; Which (if any) of these viewpoints do you support?
 
-; TODO
+; I support Alyssa's opinion.
+;
+; Ben's opinion is not reasonable as Alyssa said.  Eva's opinion sounds
+; reasonable, but it seems to be hard to implement.  Suppose that the inner
+; a in the expression is defined like (define a (* b 2)).  It's not possible to
+; evaluate because both expressions requires a result of each other expression.
 
 ;;; Can you devise a way to implement internal definitions so that they behave
 ;;; as Eva prefers? [26]
