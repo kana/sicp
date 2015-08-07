@@ -44,7 +44,21 @@
 ;;; 4.18. That is, the letrec variables should be created with a let and then
 ;;; be assigned their values with set!.
 
-; TODO
+(define (letrec? expr)
+  (tagged-list? 'letrec))
+
+(define letrec-bindings cadr)
+
+(define letrec-body cddr)
+
+(define (letrec->let expr)
+  (define (to-declaration binding)
+    `(,(car binding) '*unassigned*))
+  (define (to-assignment binding)
+    `(set! ,(car binding) ,(cadr binding)))
+  `(let ,(map to-declaration (letrec-bindings expr))
+     ,@(map to-assignment (letrec-bindings expr))
+     ,@(letrec-body expr)))
 
 
 
