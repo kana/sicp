@@ -71,4 +71,48 @@
 ;;; f defined as in this exercise. Draw an environment diagram for the same
 ;;; evaluation, but with let in place of letrec in the definition of f.
 
-; TODO
+; ---------------------------
+; |                         | The environment where f is defined.
+; ---------------------------
+;        ^
+;        |
+; ---------------------------
+; | x: 5                    | The environment to apply f.
+; ---------------------------
+;        ^
+;        |
+;      ----------------------
+;      | even?: --------.   | The environment to evaluate <rest of body of f>
+;      | odd:?: --.     |   | which is craeted by letrec.
+;      -----------|-----|----
+;               ^ |   ^ |
+;               | |   | |
+;               | |   `o=o
+;               `o=o    |
+;                  |    v
+;                  v  [code...]
+;            [code...]
+;
+; ---------------------------
+; |                         | The environment where f is defined.
+; ---------------------------
+;        ^
+;        |
+; ---------------------------
+; | x: 5                    | The environment to apply f.
+; ---------------------------
+;  ^ ^   ^
+;  | |   |
+;  | | ----------------------
+;  | | | even?: --------.   | The environment to evaluate <rest of body of f>
+;  | | | odd:?: --.     |   | which is craeted by let.
+;  | | -----------|-----|----
+;  | |            |     |
+;  | |            |     |
+;  | `------------|----o=o
+;  `-------------o=o    |
+;                  |    v
+;                  v  [code...]
+;            [code...]
+;
+; So that even? can't find add?, and vice versa.
