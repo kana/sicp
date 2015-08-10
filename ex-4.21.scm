@@ -19,7 +19,32 @@
 ;;; a. Check (by evaluating the expression) that this really does compute
 ;;; factorials. Devise an analogous expression for computing Fibonacci numbers.
 
-; TODO
+(print ((lambda (n)
+          ((lambda (fact)
+             (fact fact n))
+           (lambda (ft k)
+             (if (= k 1)
+               1
+               (* k (ft ft (- k 1)))))))
+        10))
+;==> 3628800
+
+(define fibonacci
+  (lambda (n)
+    ((lambda (f)
+       (f f n))
+     (lambda (f k)
+       (cond ((= k 1) 1)
+             ((= k 2) 1)
+             (else (+ (f f (- k 1)) (f f (- k 2)))))))))
+
+(print (fibonacci 1))  ;==>  1
+(print (fibonacci 2))  ;==>  1
+(print (fibonacci 3))  ;==>  2
+(print (fibonacci 4))  ;==>  3
+(print (fibonacci 5))  ;==>  5
+(print (fibonacci 6))  ;==>  8
+(print (fibonacci 7))  ;==> 13
 
 
 
