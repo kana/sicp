@@ -32,4 +32,15 @@
 ;;; Can you devise a way to implement internal definitions so that they behave
 ;;; as Eva prefers? [26]
 
-; TODO
+; Eva's view has a problem.  Internal definitions might refer each other.
+; Suppose that the definition of internal a is (define a (* b 3)), a requires
+; the value of b, while b requires the value of a.  It's not possible to
+; evaluate both values.  Such mutual references might involve 3 or more
+; definitions.
+;
+; Eva's evaluator should raise an error for such cases.  But it's hard to
+; determine whether a variable is referred in an expression.  An expression
+; might define another variable with the same name, might use eval to
+; dynamically evaluate another expression and that expression refer the
+; variable, and more.  It seems to be impossible to investigate such cases
+; without actual evaluation.
