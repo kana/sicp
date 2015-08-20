@@ -20,6 +20,8 @@
         ; <more primitives> ***
         (list '+ +)
         (list '- -)
+        (list '* *)
+        (list '/ /)
         (list '= =)
         (list 'print print)
         ))
