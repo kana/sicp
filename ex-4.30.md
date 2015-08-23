@@ -45,7 +45,11 @@
 >
 > Explain why Ben is right about the behavior of `for-each`.
 
-TODO
+`eval` might returns a thunk to be forced.  For example, a compound procedure
+returns a thunk if a given argument is returned as is like `(lambda (x) x)`.
+
+Ben's example does not contain such code.  That's why Ben's example seems to
+work with the original `eval-sequence`.
 
 
 
