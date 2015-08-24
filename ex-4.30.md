@@ -75,7 +75,30 @@ work with the original `eval-sequence`.
 > `eval-sequence`? What would the values be with Cy's proposed change to
 > `eval-sequence`?
 
-TODO
+The steps to evaluate `(p1 1)` with the original `eval-sequence` are:
+
+1. `1` given to `p1` is delayed.  Then body of `p1` will be evaluated.
+2. `(set! x (cons x '(2)))` is evaluated.  There is no compound procedure, so
+   that nothing is delayed.  `x` is forced then bound to `(1 2)`.
+3. `x` is evaluated.  Finally `p1` returns `(1 2)`.
+
+The steps to evaluate `(p2 1)` with the original `eval-sequence` are:
+
+1. `1` given to `p2` is delayed.  Then body of `p2` will be evaluated.
+2. `(define ...)` is evaluated without delay.
+3. `(p ...)` is evaluated.  The subexpression `(set! ...)` is delayed, then
+   body of `p` will be evaluated.
+4. `e` is evaluated.  `e` is bound to a delayed `(set! ...)`.  Nothing is
+   forced at this timing.
+5. `x` is evaluated.  Since `(set! ...)` is not evaluated, `x` is still bound
+   to `1`.  So that `p2` returns `1`.
+
+The steps to evaluate `(p1 1)` with Cy's `eval-sequence` are the same as ones
+with the original `eval-sequence`.
+
+The steps to evaluate `(p2 1)` with Cy's `eval-sequence` are similar to ones
+with the original `eval-sequence`.  But `e` is forced with Cy's one.  So that
+`x` is bound to `(1 2)`, then `x`'s value is returned from `p2`.
 
 
 
