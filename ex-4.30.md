@@ -106,7 +106,10 @@ with the original `eval-sequence`.  But `e` is forced with Cy's one.  So that
 > c. Cy also points out that changing `eval-sequence` as he proposes does not
 > affect the behavior of the example in part a. Explain why this is true.
 
-TODO
+Because the actual `proc` in Ben's example does not use delayed argument as is
+in non-last expressions.  All arguments are forced even if Ben's example is
+evaluated with the original `eval-sequence`.  So that the behavior of the
+example is not changed with Cy's one.
 
 
 
