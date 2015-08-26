@@ -117,4 +117,8 @@ example is not changed with Cy's one.
 > d. How do you think sequences ought to be treated in the lazy evaluator? Do
 > you like Cy's approach, the approach in the text, or some other approach?
 
-TODO
+The approach in the text is consistent, but it is not useful if non-last
+expressions in `begin` have side effect.  Cy's approach is useful for some
+cases involving side effect, but it might cause forcing unnecessary delayed
+expressions.  Both approaches have their own cons and pros.  I don't think
+which approach is better in general.
