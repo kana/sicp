@@ -29,6 +29,25 @@
 (load "./sec-4.1.4.scm")
 (load "./sec-4.2.2.scm")
 
-; TODO: Parser
+
+
+
+(define (parameter-name param)
+  (if (pair? param)
+    (car param)
+    param))
+
+(define (parameter-lazy? param)
+  (and (pair? param)
+       (or (eq? (cadr param) 'lazy)
+           (eq? (cadr param) 'lazy-memo))))
+
+(define (parameter-memo? param)
+  (and (pair? param)
+       (eq? (cadr param) 'lazy-memo)))
+
+
+
+
 ; TODO: Plain delay/force
 ; TODO: Memoized delay/force
