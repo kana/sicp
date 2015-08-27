@@ -47,6 +47,15 @@
        (eq? (cadr param) 'lazy-memo)))
 
 
+(define (procedure-parameters-with-metadata p)
+  (cadr p))
+
+(define (procedure-parameter-names p)
+  (map parameter-name (procedure-parameters-with-metadata p)))
+
+(define procedure-parameters procedure-parameter-names)
+
+
 
 
 ; TODO: Plain delay/force
