@@ -23,6 +23,12 @@
 ;;; or delay arguments accordingly, and you must arrange for forcing to memoize
 ;;; or not, as appropriate.
 
+(load "./sec-4.1.1.scm")
+(load "./sec-4.1.2.scm")
+(load "./sec-4.1.3.scm")
+(load "./sec-4.1.4.scm")
+(load "./sec-4.2.2.scm")
+
 ; TODO: Parser
 ; TODO: Plain delay/force
 ; TODO: Memoized delay/force
