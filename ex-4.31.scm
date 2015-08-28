@@ -84,7 +84,9 @@
        exps))
 
 
+(define (delay-it exp param env)
+  (list 'thunk exp param env))
 
-
-; TODO: Plain delay/force
-; TODO: Memoized delay/force
+(define thunk-exp cadr)
+(define thunk-param caddr)
+(define thunk-env cadddr)
