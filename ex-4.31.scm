@@ -75,6 +75,14 @@
          (error
           "Unknown procedure type -- APPLY" procedure))))
 
+(define (list-of-delayed-args params exps env)
+  (map (lambda (p e)
+         (if (parameter-lazy? p)
+           (delay-it e p env)
+           (actual-value e env)))
+       params
+       exps))
+
 
 
 
