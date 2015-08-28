@@ -90,3 +90,22 @@
 (define thunk-exp cadr)
 (define thunk-param caddr)
 (define thunk-env cadddr)
+
+(define (force-it obj)
+  (cond ((thunk? obj)
+         (let ((result (actual-value
+                         (thunk-exp obj)
+                         (thunk-env obj))))
+           ; vvvv changed vvvv
+           (cond ((parameter-memo? (thunk-param obj))
+                  (set-car! obj 'evaluated-thunk)
+                  (set-car! (cdr obj) result)
+                  (set-car! (cdddr obj) the-empty-environment)
+                  result)
+                 (else
+                   result))
+           ; ^^^^ changed ^^^^
+           ))
+        ((evaluated-thunk? obj)
+         (thunk-value obj))
+        (else obj)))
