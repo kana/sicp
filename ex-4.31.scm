@@ -56,6 +56,26 @@
 (define procedure-parameters procedure-parameter-names)
 
 
+(define (%apply procedure arguments env)
+  (cond ((primitive-procedure? procedure)
+         (apply-primitive-procedure
+          procedure
+          (list-of-arg-values arguments env)))  ; nothing changed
+        ((compound-procedure? procedure)
+         (eval-sequence
+          (procedure-body procedure)
+          (extend-environment
+           (procedure-parameters procedure)
+           (list-of-delayed-args                            ; changed
+             (procedure-parameters-with-metadata procedure) ; changed
+             arguments                                      ; changed
+             env)                                           ; changed
+           (procedure-environment procedure))))
+        (else
+         (error
+          "Unknown procedure type -- APPLY" procedure))))
+
+
 
 
 ; TODO: Plain delay/force
