@@ -109,3 +109,26 @@
         ((evaluated-thunk? obj)
          (thunk-value obj))
         (else obj)))
+
+
+
+
+(define (main args)
+  (for-each
+    (lambda (expr)
+      (print expr)
+      (print "==> " (actual-value expr the-global-environment)))
+    '((define (lazy (x lazy)) x)
+      (define (memo (x lazy-memo)) x)
+      (define (bomb)
+        (print "HI!")
+        1)
+      "lazy:"
+      (define lazy-x (lazy (bomb)))
+      lazy-x  ; Outputs "HI!".
+      lazy-x  ; Outputs "HI!" again.
+      "memo:"
+      (define memo-x (memo (bomb)))
+      memo-x  ; Outputs "HI!".
+      memo-x  ; Outputs nothing.
+      )))
