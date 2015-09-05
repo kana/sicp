@@ -37,4 +37,9 @@
 ;;; a procedure for which repeatedly typing try-again would in principle
 ;;; eventually generate all Pythagorean triples.)
 
-; TODO
+(define (a-pythagorean-triples low)
+  (let ((k (an-integer-starting-from low)))
+    (let ((j (an-integer-between low k)))
+      (let ((i (an-integer-between low j)))
+        (require (= (+ (* i i) (* j j)) (* k k)))
+        (list i j k)))))
