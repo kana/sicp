@@ -204,6 +204,21 @@
 
 
 
+(define (set-up-for-ambeval)
+  (for-each
+    (lambda (expr)
+      (ambeval expr
+               the-global-environment
+               (lambda (val next-alternative))
+               (lambda ())))
+    '((define (require p)
+        (if (not p) (amb)))
+      )))
+(set-up-for-ambeval)
+
+
+
+
 ;; Utility for test script
 
 (define (ambtest expr)
