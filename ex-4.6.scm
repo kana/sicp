@@ -19,7 +19,7 @@
   (define vars (map let-clause-var (let-clauses let-exp)))
   (define value-exps (map let-clause-value-exp (let-clauses let-exp)))
   (cons
-    (list (make-lambda vars (let-body let-exp)))
+    (make-lambda vars (let-body let-exp))
     value-exps))
 
 (define (let? exp)
