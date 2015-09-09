@@ -200,3 +200,16 @@
      (newline)
      (display ";;; There is no current problem")
      (driver-loop))))
+
+
+
+
+;; Utility for test script
+
+(define (ambtest expr)
+  (ambeval expr
+           the-global-environment
+           (lambda (val next-alternative)
+             (next-alternative))
+           (lambda ()
+             (print "*** No more values ***"))))
