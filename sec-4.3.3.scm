@@ -1,4 +1,5 @@
 (load "./sec-4.1.1.scm")
+(load "./ex-4.6.scm")
 (load "./sec-4.1.2.scm")
 (load "./sec-4.1.3.scm")
 (load "./sec-4.1.4.scm")
@@ -23,6 +24,7 @@
         ((lambda? exp) (analyze-lambda exp))
         ((begin? exp) (analyze-sequence (begin-actions exp)))
         ((cond? exp) (analyze (cond->if exp)))
+        ((let? exp) (analyze (let->combination exp)))
         ((amb? exp) (analyze-amb exp))  ; **changed**
         ((application? exp) (analyze-application exp))
         (else
