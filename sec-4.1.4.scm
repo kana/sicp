@@ -28,6 +28,7 @@
         (list '<= <=)
         (list '> >)
         (list '>= >=)
+        (list 'not not)
         (list 'indent (lambda (n x)
                         (string-append (make-string (* n 2) #\space)
                                        (x->string x))))
