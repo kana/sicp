@@ -10,6 +10,16 @@
 ;;;         (require (= (+ (* i i) (* j j)) (* k k)))
 ;;;         (list i j k)))))
 
-(define (an-integer-between i j)
-  (require (<= i j))
-  (amb i (an-integer-between (+ i 1) j)))
+(load "./sec-4.3.3.scm")
+
+(ambtest
+  '(begin
+
+     (define (an-integer-between i j)
+       (require (<= i j))
+       (amb i (an-integer-between (+ i 1) j)))
+
+     (let ((k (an-integer-between 13 19)))
+       (print "k = " k))
+
+     ))
