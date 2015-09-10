@@ -37,9 +37,28 @@
 ;;; a procedure for which repeatedly typing try-again would in principle
 ;;; eventually generate all Pythagorean triples.)
 
-(define (a-pythagorean-triples low)
-  (let ((k (an-integer-starting-from low)))
-    (let ((j (an-integer-between low k)))
-      (let ((i (an-integer-between low j)))
-        (require (= (+ (* i i) (* j j)) (* k k)))
-        (list i j k)))))
+(load "./sec-4.3.3.scm")
+
+(ambtest
+  '(begin
+
+     (define (a-pythagorean-triples low)
+       (let ((k (an-integer-starting-from low)))
+         (let ((j (an-integer-between low k)))
+           (let ((i (an-integer-between low j)))
+             (require (= (+ (* i i) (* j j)) (* k k)))
+             (list i j k)))))
+
+     (define (an-integer-between i j)
+       (require (<= i j))
+       (amb i (an-integer-between (+ i 1) j)))
+     (define (an-integer-starting-from i)
+       (amb i (an-integer-starting-from (+ i 1))))
+
+     (let ((triple (a-pythagorean-triples 1)))
+       (print triple)
+       (if (>= (car (cdr (cdr triple))) 100)
+         (error "... and more"))
+       )
+
+     ))
