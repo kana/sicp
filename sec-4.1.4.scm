@@ -30,6 +30,8 @@
         (list '>= >=)
         (list 'not not)
         (list 'list list)
+        (list 'member member)
+        (list 'abs abs)
         (list 'indent (lambda (n x)
                         (string-append (make-string (* n 2) #\space)
                                        (x->string x))))
