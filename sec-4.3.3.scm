@@ -25,6 +25,7 @@
         ((begin? exp) (analyze-sequence (begin-actions exp)))
         ((cond? exp) (analyze (cond->if exp)))
         ((let? exp) (analyze (let->combination exp)))
+        ((and? exp) (analyze (and->if exp)))
         ((amb? exp) (analyze-amb exp))  ; **changed**
         ((application? exp) (analyze-application exp))
         (else
@@ -32,6 +33,19 @@
 
 (define (ambeval exp env succeed fail)
   ((analyze exp) env succeed fail))
+
+
+
+
+(define (and? exp)
+  (tagged-list? exp 'and))
+(define (and->if exprs)
+  (let go ((exprs (cdr exprs)))
+    (if (null? exprs)
+      'true
+      `(if ,(car exprs)
+         ,(go (cdr exprs))
+         false))))
 
 
 
