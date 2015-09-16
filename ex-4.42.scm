@@ -1,5 +1,5 @@
 ;;; Exercise 4.42.  Solve the following ``Liars'' puzzle (from Phillips 1934):
-;;; 
+;;;
 ;;; Five schoolgirls sat for an examination. Their parents -- so they thought
 ;;; -- showed an undue degree of interest in the result. They therefore agreed
 ;;; that, in writing home about the examination, each girl should make one true
