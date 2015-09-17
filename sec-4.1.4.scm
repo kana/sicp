@@ -38,6 +38,7 @@
         (list 'print print)
         (list 'error error)
         (list 'eq? eq?)
+        (list 'assq assq)
         ))
 (define (primitive-procedure-names)
   (map car
