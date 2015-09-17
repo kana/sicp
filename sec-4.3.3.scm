@@ -25,6 +25,7 @@
         ((begin? exp) (analyze-sequence (begin-actions exp)))
         ((cond? exp) (analyze (cond->if exp)))
         ((let? exp) (analyze (let->combination exp)))
+        ((let*? exp) (analyze (let*->let exp)))
         ((and? exp) (analyze (and->if exp)))
         ((amb? exp) (analyze-amb exp))  ; **changed**
         ((application? exp) (analyze-application exp))
@@ -46,6 +47,16 @@
       `(if ,(car exprs)
          ,(go (cdr exprs))
          false))))
+
+(define (let*? exp)
+  (tagged-list? exp 'let*))
+(define (let*->let exp)
+  (let go ((clauses (let-clauses exp)))
+    (if (null? clauses)
+      `(begin ,@(let-body exp))
+      `(let (,(car clauses))
+         ,(go (cdr clauses))
+         ))))
 
 
 
