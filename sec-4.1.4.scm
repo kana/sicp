@@ -39,6 +39,14 @@
         (list 'error error)
         (list 'eq? eq?)
         (list 'assq assq)
+        (list 'distinct?
+              (letrec ((distinct?
+                         (lambda (items)
+                           (cond ((null? items) true)
+                                 ((null? (cdr items)) true)
+                                 ((member (car items) (cdr items)) false)
+                                 (else (distinct? (cdr items)))))))
+                distinct?))
         ))
 (define (primitive-procedure-names)
   (map car
