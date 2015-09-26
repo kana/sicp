@@ -48,6 +48,8 @@
                                  ((member (car items) (cdr items)) false)
                                  (else (distinct? (cdr items)))))))
                 distinct?))
+        (list 'even? even?)
+        (list 'odd? odd?)
         ))
 (define (primitive-procedure-names)
   (map car
