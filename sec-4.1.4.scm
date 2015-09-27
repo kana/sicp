@@ -22,6 +22,7 @@
         (list '- -)
         (list '* *)
         (list '/ /)
+        (list 'remainder remainder)
         (list 'modulo modulo)
         (list '= =)
         (list '< <)
