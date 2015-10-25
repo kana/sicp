@@ -422,3 +422,29 @@
 ;     because EXTEND is a built-in macro in Gauche.
 (define (extend-frame variable value frame)
   (cons (make-binding variable value) frame))
+
+
+
+
+;; Utilites for scripting
+
+(define (query-driver-loop-for-script exps)
+  (let go ((exps exps))
+    (when (not (null? exps))
+      (let ((q (query-syntax-process (car exps))))
+        (cond ((assertion-to-be-added? q)
+               (add-rule-or-assertion! (add-assertion-body q))
+               (go (cdr exps)))
+              (else
+                (print (car exps))
+                (print "==>")
+                (stream-for-each
+                  (lambda (x) (print "    " x))
+                  (stream-map
+                    (lambda (frame)
+                      (instantiate q
+                                   frame
+                                   (lambda (v f)
+                                     (contract-question-mark v))))
+                    (qeval q (singleton-stream '()))))
+                (go (cdr exps))))))))
