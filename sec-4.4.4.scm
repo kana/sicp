@@ -147,7 +147,7 @@
   (let ((binding (binding-in-frame var frame)))
     (if binding
         (pattern-match (binding-value binding) dat frame)
-        (extend var dat frame))))
+        (extend-frame var dat frame))))
 
 
 
@@ -204,10 +204,10 @@
              (if binding
                  (unify-match
                   var (binding-value binding) frame)
-                 (extend var val frame))))
+                 (extend-frame var val frame))))
           ((depends-on? val var frame)     ; ***
            'failed)
-          (else (extend var val frame)))))
+          (else (extend-frame var val frame)))))
 
 (define (depends-on? exp var frame)
   (define (tree-walk e)
@@ -417,5 +417,8 @@
   (cdr binding))
 (define (binding-in-frame variable frame)
   (assoc variable frame))
-(define (extend variable value frame)
+
+; *** EXTEND is renamed as EXTEND-FRAME,
+;     because EXTEND is a built-in macro in Gauche.
+(define (extend-frame variable value frame)
   (cons (make-binding variable value) frame))
