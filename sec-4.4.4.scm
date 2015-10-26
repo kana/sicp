@@ -108,8 +108,11 @@
 (put 'lisp-value 'qeval lisp-value)
 
 (define (execute exp)
-  (apply (eval (predicate exp) (interaction-environment))
-         (args exp)))
+  (apply-in-underlying-scheme
+    (eval-in-underlying-scheme
+      (predicate exp)
+      (interaction-environment))
+    (args exp)))
 
 (define (always-true ignore frame-stream) frame-stream)
 (put 'always-true 'qeval always-true)
