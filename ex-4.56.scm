@@ -17,7 +17,7 @@
 
   ; a
   (and (supervisor ?person (Bitdiddle Ben))
-       (addresses ?person ?address))
+       (address ?person ?address))
 
   ; b
   (and (salary (Bitdiddle Ben) ?ben-salary)
