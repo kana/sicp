@@ -436,10 +436,9 @@
                (add-rule-or-assertion! (add-assertion-body q))
                (go (cdr exps)))
               (else
-                (print (car exps))
-                (print "==>")
+                (print "query> " (car exps))
                 (stream-for-each
-                  (lambda (x) (print "    " x))
+                  (lambda (x) (print x))
                   (stream-map
                     (lambda (frame)
                       (instantiate q
@@ -447,4 +446,5 @@
                                    (lambda (v f)
                                      (contract-question-mark v))))
                     (qeval q (singleton-stream '()))))
+                (print "")
                 (go (cdr exps))))))))
