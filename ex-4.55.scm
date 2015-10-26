@@ -7,8 +7,18 @@
 ;;;
 ;;; c. the names and addresses of all people who live in Slumerville.
 
-(supervisor ?person (Bitdiddle Ben))
+(load "./sec-4.4.4.scm")
+(load "./sec-4.4.1-sample-db.scm")
 
-(job ?name (accounting . ?type))
+(query-driver-loop-for-script '(
 
-(address ?name (Slumerville . ?detail))
+    ; a
+    (supervisor ?person (Bitdiddle Ben))
+
+    ; b
+    (job ?name (accounting . ?type))
+
+    ; c
+    (address ?name (Slumerville . ?detail))
+
+    ))
