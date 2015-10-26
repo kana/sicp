@@ -10,13 +10,23 @@
 ;;; c. all people who are supervised by someone who is not in the computer
 ;;; division, together with the supervisor's name and job.
 
-(and (supervisor ?person (Bitdiddle Ben))
-     (addresses ?person ?address))
+(load "./sec-4.4.4.scm")
+(load "./sec-4.4.1-sample-db.scm")
 
-(and (salary (Bitdiddle Ben) ?ben-salary)
-     (salary ?who ?who-salary)
-     (lisp-value < ?who-salary ?ben-salary))
+(query-driver-loop-for-script '(
 
-(and (supervisor ?employee ?supervisor)
-     (not (job ?supervisor (computer . ?job-detail)))
-     (job ?supervisor ?supervisor-job))
+  ; a
+  (and (supervisor ?person (Bitdiddle Ben))
+       (addresses ?person ?address))
+
+  ; b
+  (and (salary (Bitdiddle Ben) ?ben-salary)
+       (salary ?who ?who-salary)
+       (lisp-value < ?who-salary ?ben-salary))
+
+  ; c
+  (and (supervisor ?employee ?supervisor)
+       (not (job ?supervisor (computer . ?job-detail)))
+       (job ?supervisor ?supervisor-job))
+
+  ))
