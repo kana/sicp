@@ -8,18 +8,28 @@
 ;;; b.  all people who can replace someone who is being paid more than they
 ;;; are, together with the two salaries.
 
-(rule (can-replace ?person1 ?person2)
-      (and (or (and (job ?person1 ?job1)
-                    (job ?person2 ?job2)
-                    (same ?job1 ?job2))
-               (and (job ?personx ?jobx)
-                    (same ?jobx ?job1))
-               (same ?jobx ?job2))
-           (not (same ?person1 ?person2))))
+(load "./sec-4.4.4.scm")
+(load "./sec-4.4.1-sample-db.scm")
 
-(can-replace ?who (Fect Cy D))
+(query-driver-loop-for-script '(
 
-(and (can-replace ?who ?someone)
-     (salary ?who ?who-amount)
-     (salary ?someone ?someone-amount)
-     (lisp-value < ?who-amount ?someone-amount))
+  (assert!
+    (rule (can-replace ?person1 ?person2)
+          (and (or (and (job ?person1 ?job1)
+                        (job ?person2 ?job2)
+                        (same ?job1 ?job2))
+                   (and (job ?personx ?jobx)
+                        (same ?jobx ?job1))
+                   (same ?jobx ?job2))
+               (not (same ?person1 ?person2)))))
+
+  ; a
+  (can-replace ?who (Fect Cy D))
+
+  ; b
+  (and (can-replace ?who ?someone)
+       (salary ?who ?who-amount)
+       (salary ?someone ?someone-amount)
+       (lisp-value < ?who-amount ?someone-amount))
+
+  ))
