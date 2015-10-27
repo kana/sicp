@@ -451,3 +451,11 @@
                     (qeval q (singleton-stream '()))))
                 (print "")
                 (go (cdr exps))))))))
+
+
+
+
+;; Predefined rules
+
+(query-driver-loop-for-script
+  '((assert! (rule (same ?x ?x)))))
