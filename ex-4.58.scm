@@ -9,7 +9,7 @@
 
   (assert! (rule (big-shot ?person)
                  (and (job ?person (?division . ?person-job))
-                      (supervisor ?who ?supervisor)
+                      (supervisor ?person ?supervisor)
                       (not (job ?supervisor (?division . ?supervisor-job)))))) 
 
   (big-shot ?who)
