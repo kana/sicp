@@ -42,7 +42,7 @@
   (assert! (rule (meeting-time ?person ?day-and-time)
         (and (meeting ?d ?day-and-time)
              (or (same ?d ?division)
-                 (same ?d company-wide))
+                 (same ?d whole-company))
              (job ?person (?division . ?job-rest)))))
   (meeting-time ?person (Friday . ?time))
   (meeting-time (Bitdiddle Ben) ?day-and-time)
