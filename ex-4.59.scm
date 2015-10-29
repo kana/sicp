@@ -54,6 +54,6 @@
 ;;; she has to attend that day. Having defined the above rule, what query
 ;;; should she make to find this out?
 
-  (meeting (Hacker Alyssa P) (Wednesday ?time))
+  (meeting-time (Hacker Alyssa P) (Wednesday ?time))
 
   ))
