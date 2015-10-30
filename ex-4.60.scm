@@ -22,16 +22,16 @@
 (load "./sec-4.4.4.scm")
 (load "./sec-4.4.1-sample-db.scm")
 
-(define (name< name1 name2)
-  (string< (x->string name1)
-           (x->string name2)))
+(define (name<? name1 name2)
+  (string<? (x->string name1)
+            (x->string name2)))
 
 (query-driver-loop-for-script '(
 
   (assert! (rule (lives-near ?person-1 ?person-2)
                  (and (address ?person-1 (?town . ?rest-1))
                       (address ?person-2 (?town . ?rest-2))
-                      (lisp-value name< ?person-1 ?person-2))))  ; **changed**
+                      (lisp-value name<? ?person-1 ?person-2))))  ; **changed**
 
   (lives-near ?person (Hacker Alyssa P))
   (lives-near ?person-1 ?person-2)
