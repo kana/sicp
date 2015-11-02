@@ -4,19 +4,26 @@
 ;;; (last-pair (1 2 3) ?x), and (last-pair (2 ?x) (3)). Do your rules work
 ;;; correctly on queries such as (last-pair ?x (3)) ?
 
-(rule (last-pair ?x ?x)
-      (same ?x (?e . ())))
-(rule (last-pair (?z . ?y) ?x)
-      (last-pair ?y ?x))
+(load "./sec-4.4.4.scm")
+(load "./sec-4.4.1-sample-db.scm")
 
-; (last-pair (3) ?x)
-; ==> (last-pair (3) (3))
+(query-driver-loop-for-script '(
 
-; (last-pair (1 2 3) ?x)
-; ==> (last-pair (1 2 3) (3))
+  (assert! (rule (last-pair ?x ?x)
+                 (same ?x (?e . ()))))
+  (assert! (rule (last-pair (?z . ?y) ?x)
+                 (last-pair ?y ?x)))
 
-; (last-pair (2 ?x) (3))
-; ==> (last-pair (2 3) (3))
+  (last-pair (3) ?x)
+  ; ==> (last-pair (3) (3))
 
-; (last-pair ?x (3))
-; ==> ...?  There are infinite instances.
+  (last-pair (1 2 3) ?x)
+  ; ==> (last-pair (1 2 3) (3))
+
+  (last-pair (2 ?x) (3))
+  ; ==> (last-pair (2 3) (3))
+
+  ; (last-pair ?x (3))
+  ; ==> ...?  There are infinite instances.
+
+  ))
