@@ -18,14 +18,31 @@
 ;;; Cain; the sons of Lamech; the grandsons of Methushael. (See exercise 4.69
 ;;; for some rules to deduce more complicated relationships.)
 
-(rule (grandson ?g ?s)
-      (and (son ?g ?f)
-           (son ?f ?s)))
-(rule (son ?m ?s)
-      (or (son ?m ?s)
-          (and (wife ?m ?w)
-               (son ?w ?s))))
+(load "./sec-4.4.4.scm")
+(load "./sec-4.4.1-sample-db.scm")
 
-(grandson Cain ?x)
-(son Lamech ?x)
-(grandson Methushael ?x)
+(query-driver-loop-for-script '(
+
+  (assert! (son Adam Cain))
+  (assert! (son Cain Enoch))
+  (assert! (son Enoch Irad))
+  (assert! (son Irad Mehujael))
+  (assert! (son Mehujael Methushael))
+  (assert! (son Methushael Lamech))
+  (assert! (wife Lamech Ada))
+  (assert! (son Ada Jabal))
+  (assert! (son Ada Jubal))
+
+  (assert! (rule (grandson ?g ?s)
+                 (and (son ?g ?f)
+                      (son ?f ?s))))
+  (assert! (rule (son ?m ?s)
+                 (or (son ?m ?s)
+                     (and (wife ?m ?w)
+                          (son ?w ?s)))))
+
+  (grandson Cain ?x)
+  (son Lamech ?x)
+  (grandson Methushael ?x)
+
+  ))
