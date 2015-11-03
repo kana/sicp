@@ -42,7 +42,14 @@
                           (son$ ?w ?s)))))
 
   (grandson Cain ?x)
+  ; ==> (grandson Cain Irad)
+
   (son$ Lamech ?x)
+  ; ==> (son$ Lamech Jabal)
+  ;     (son$ Lamech Jubal)
+
   (grandson Methushael ?x)
+  ; ==> (grandson Methushael Jabal)
+  ;     (grandson Methushael Jubal)
 
   ))
