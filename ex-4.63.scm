@@ -34,15 +34,15 @@
   (assert! (son Ada Jubal))
 
   (assert! (rule (grandson ?g ?s)
-                 (and (son ?g ?f)
-                      (son ?f ?s))))
-  (assert! (rule (son ?m ?s)
+                 (and (son$ ?g ?f)
+                      (son$ ?f ?s))))
+  (assert! (rule (son$ ?m ?s)
                  (or (son ?m ?s)
                      (and (wife ?m ?w)
-                          (son ?w ?s)))))
+                          (son$ ?w ?s)))))
 
   (grandson Cain ?x)
-  (son Lamech ?x)
+  (son$ Lamech ?x)
   (grandson Methushael ?x)
 
   ))
