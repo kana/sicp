@@ -56,10 +56,10 @@
 (define (uniquely-asserted query frame-stream)
   (stream-flatmap
    (lambda (frame)
-     (if (singleton-stream? (qeval (unique-query query)
-                                   (singleton-stream frame)))
-         (singleton-stream frame)
-         the-empty-stream))
+     (let ((result (qeval (unique-query query) (singleton-stream frame))))
+       (if (singleton-stream? result)
+         result
+         the-empty-stream)))
    frame-stream))
 
 (put 'unique 'qeval uniquely-asserted)
@@ -67,7 +67,6 @@
 
 
 
-; TODO: Variables in unique-query are not bouond.
 (query-driver-loop-for-script '(
 
   (unique (job ?x (computer wizard)))
