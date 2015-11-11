@@ -20,7 +20,10 @@
 (load "./sec-4.4.1-sample-db.scm")
 
 (define test-queries-for-and '(
-  ; TODO: Write.
+  ; TODO: Write a proper query.
+  (and (job ?person (?division . ?person-job))
+       (supervisor ?person ?supervisor)
+       (not (job ?supervisor (?division . ?supervisor-job))))
   ))
 
 (print "*** Results by the original AND")
@@ -30,12 +33,31 @@
 
 
 (define (conjoin conjuncts frame-stream)
-  ; TODO: Write.
-  ;
-  ; For empty conjuncts: the-empty-stream
-  ; For single conjunct: results of qeval
-  ; For two or more conjuncts: ...?
-  )
+  (define (compatible-frames? f1 f2)
+    ; TODO: Write.
+    #f)
+  (define (merge-compatible-frames f1 f2)
+    ; TODO: Write.
+    f1)
+  (define (merge-compatible-frames fs1 fs2)
+    (stream-map
+      (lambda (fp)
+        (merge-compatible-frames (car fp) (cdr fp)))
+      (stream-filter
+        (lambda (fp)
+          (compatible-frames? (car fp) (cdr fp)))
+        (stream-flatmap
+          (lambda (f1)
+            (stream-map
+              (lambda (f2)
+                (cons f1 f2))
+              fs2))
+          fs1))))
+  (if (empty-conjunction? conjuncts)
+    frame-stream
+    (merge-compatible-frames
+      (qeval (first-conjunct conjuncts) frame-stream)
+      (conjoin (rest-conjuncts conjuncts) frame-stream))))
 
 
 
