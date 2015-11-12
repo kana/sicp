@@ -68,9 +68,10 @@
           fs1))))
   (if (empty-conjunction? conjuncts)
     frame-stream
-    (merge-compatible-frames
-      (qeval (first-conjunct conjuncts) frame-stream)
-      (conjoin (rest-conjuncts conjuncts) frame-stream))))
+    (let ((new-frame-stream (qeval (first-conjunct conjuncts) frame-stream)))
+      (merge-compatible-frame-streams
+        new-frame-stream
+        (conjoin (rest-conjuncts conjuncts) frame-stream)))))
 
 
 
