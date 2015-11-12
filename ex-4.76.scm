@@ -34,12 +34,25 @@
 
 (define (conjoin conjuncts frame-stream)
   (define (compatible-frames? f1 f2)
-    ; TODO: Write.
-    #f)
+    (every (lambda (b1)
+             (let ((b2 (binding-in-frame (binding-value b1) f2)))
+               (if b2
+                 (equal? (binding-value b1) (binding-value b2))
+                 #t)))
+           f1))
   (define (merge-compatible-frames f1 f2)
-    ; TODO: Write.
-    f1)
-  (define (merge-compatible-frames fs1 fs2)
+    (let go ((bindings f1)
+             (merged-frame f2))
+      (if (null? bindings)
+        merged-frame
+        (let* ((b (car bindings))
+               (variable (binding-variable b))
+               (value (binding-value b)))
+          (go (cdr bindings)
+              (if (binding-in-frame variable merged-frame)
+                merged-frame
+                (extend-frame variable value merged-frame)))))))
+  (define (merge-compatible-frame-streams fs1 fs2)
     (stream-map
       (lambda (fp)
         (merge-compatible-frames (car fp) (cdr fp)))
