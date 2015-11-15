@@ -72,6 +72,7 @@
       (merge-compatible-frame-streams
         new-frame-stream
         (conjoin (rest-conjuncts conjuncts) frame-stream)))))
+(put 'and 'qeval conjoin)
 
 
 
