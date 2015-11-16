@@ -66,12 +66,18 @@
                 (cons f1 f2))
               fs2))
           fs1))))
-  (if (empty-conjunction? conjuncts)
-    frame-stream
-    (let ((new-frame-stream (qeval (first-conjunct conjuncts) frame-stream)))
-      (merge-compatible-frame-streams
-        new-frame-stream
-        (conjoin (rest-conjuncts conjuncts) frame-stream)))))
+  ; FIXME: still not working
+  (cond ((empty-conjunction? conjuncts)
+         frame-stream)
+        ((empty-conjunction? (rest-conjuncts conjuncts))
+         (qeval (first-conjunct conjuncts) frame-stream))
+        (else
+          (let* ((c1 (first-conjunct conjuncts))
+                 (c2 (first-conjunct (rest-conjuncts conjuncts)))
+                 (crest (rest-conjuncts (rest-conjuncts conjuncts)))
+                 (fs1 (qeval c1 frame-stream))
+                 (fs2 (qeval c2 frame-stream)))
+            (conjoin crest (merge-compatible-frame-streams fs1 fs2))))))
 (put 'and 'qeval conjoin)
 
 
