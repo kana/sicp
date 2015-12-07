@@ -35,7 +35,7 @@
 (define (conjoin conjuncts frame-stream)
   (define (compatible-frames? f1 f2)
     (every (lambda (b1)
-             (let ((b2 (binding-in-frame (binding-value b1) f2)))
+             (let ((b2 (binding-in-frame (binding-variable b1) f2)))
                (if b2
                  (equal? (binding-value b1) (binding-value b2))
                  #t)))
@@ -66,7 +66,6 @@
                 (cons f1 f2))
               fs2))
           fs1))))
-  ; FIXME: still not working
   (cond ((empty-conjunction? conjuncts)
          frame-stream)
         ((empty-conjunction? (rest-conjuncts conjuncts))
