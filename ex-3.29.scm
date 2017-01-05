@@ -26,4 +26,4 @@
 ;;; What is the delay time of the or-gate in terms of and-gate-delay and
 ;;; inverter-delay?
 
-; It is equal to (+ or-gate-delay and-gate-delay or-gate-delay).
+; It is equal to (+ inverter-delay and-gate-delay inverter-delay).
