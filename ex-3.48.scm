@@ -29,8 +29,8 @@
        account1
        account2)))
   (if (<= (account1 'id) (account2 'id))
-    (do-exchange account2 account1)
-    (do-exchange account1 account2)))
+    (do-exchange account1 account2)
+    (do-exchange account2 account1)))
 
 (define generate-accout-id
   (let ([id 0]
