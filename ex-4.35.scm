@@ -16,7 +16,7 @@
   '(begin
 
      (define (an-integer-between i j)
-       (require (<= i j))
+       (require (< i j))
        (amb i (an-integer-between (+ i 1) j)))
 
      (let ((k (an-integer-between 13 19)))
